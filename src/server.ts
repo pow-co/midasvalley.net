@@ -108,13 +108,13 @@ export async function NewServer(): Promise<Server> {
 
   server.route({
     method: 'GET',
-    path: '/api/v1/rewards/new',
+    path: '/api/v1/rewards/new/{token}/{amount}-{currency}',
     handler: handlers.Rewards.create,
     options: {
       description: 'New Payment Request For Rewards From Token',
       tags: ['api'],
       validate: {
-        query: Joi.object({
+        params: Joi.object({
           token: Joi.string().required(),
           amount: Joi.number().required(),
           currency: Joi.string().required()

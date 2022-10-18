@@ -14,7 +14,7 @@ export async function create(req, h) {
 
     try {
   
-      var { currency, amount, token, minimum } = req.query
+      var { currency, amount, token, minimum } = req.params
   
       if (!currency) { currency = 'USD' }
     
