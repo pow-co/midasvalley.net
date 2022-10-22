@@ -179,7 +179,7 @@ export async function NewServer(): Promise<Server> {
         description: 'Give Your Token Holders Cash Flow Rewards'
       },
       schemes: ['https'],
-      host: 'https://midasvalley.net',
+      host: 'midasvalley.net',
       documentationPath: '/',
       grouping: 'tags'
     }
