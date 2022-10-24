@@ -108,6 +108,31 @@ export async function NewServer(): Promise<Server> {
 
   server.route({
     method: 'GET',
+    path: '/api/v1/domains/{domain}/dns-txt-records',
+    handler: handlers.DomainTokens.show,
+    options: {
+      description: 'List Domain Tokens For a Domain',
+      tags: ['api', 'domains'],
+      validate: {
+        params: Joi.object({
+          domain: Joi.string().required(),
+        })
+      },
+      response: {
+        failAction: 'log',
+        schema: Joi.object({
+          domain: Joi.string().required(),
+          tokens: Joi.array().items(Joi.object({
+            uid: Joi.string().required(),
+            txt: Joi.string().required()
+          }))
+        })
+      }
+    }
+  })
+
+  server.route({
+    method: 'GET',
     path: '/api/v1/rewards/new/{token}/{amount}-{currency}',
     handler: handlers.Rewards.create,
     options: {
