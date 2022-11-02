@@ -13,28 +13,37 @@ export async function show(req, h) {
 
   log.info('api.handlers.domain_tokens.show', req.params)
 
+  const { domain } = req.params
+
+  var result = []
+
   try {
 
-    const { domain } = req.params
 
     log.info('api.handlers.domain_tokens.show', { domain })
 
-    const result = await resolveTxt(domain)
+    result = await resolveTxt(domain)
 
     log.info('api.handlers.domain_tokens.show.result', { domain, result })
 
-    return {
-
-      domain, result
-
-    }
 
   } catch(error) {
 
     log.error('api.handlers.domain_tokens.show.error', error)
 
-    return badRequest(error)
-
   }
+
+
+  const [onchain] = result.filter(([record]) => {
+    return record.match(/^onchain:/)
+  })
+  .map(([record]) => {
+    return record.split(':')[1]
+  })
+
+  console.log('RESULT', onchain)
+
+  return { domain, result, onchain }
+
 
 }

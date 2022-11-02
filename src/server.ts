@@ -201,11 +201,11 @@ export async function NewServer(): Promise<Server> {
       info: {
         title: 'Midas Valley',
         version: Pack.version,
-        description: 'Give Your Token Holders Cash Flow Rewards'
+        description: 'Develop Reliable, Immutable, Transparent Domain Assets For Future Generations'
       },
       schemes: ['https'],
       host: 'midasvalley.net',
-      documentationPath: '/',
+      documentationPath: '/api',
       grouping: 'tags'
     }
 
