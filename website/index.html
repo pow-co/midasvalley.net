@@ -3,9 +3,9 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PROOF OF WORK COLLECTIVE</title>
+	<title>MidasValley.Net</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="POWCO.DEV PROOF OF WORK COLLECTIVE" />
+	<meta name="description" content="On-Chain Domain Assets" />
 	<meta name="keywords" content="proofofwork" />
 	<meta name="author" content="1thedonald" />
 
@@ -113,11 +113,20 @@
 		<div class="fh5co-entry padding homepage-links-item">
 
 			<div>
-				{{#if bitcom }}
-				<span class="fh5co-post-date"><a target="_blank" href="https://onchain.sv/{{bitcom}}">onchain.sv/{{bitcom}}</a></span>
-				{{/if}}
 
 				<h2><a target="_blank" href="{{href}}">{{domain}}</a></h2>
+
+				{{#if bitcom }}
+				<span class="fh5co-post-date"><a target="_blank" href="https://onchain.sv/{{bitcom}}">bitcom: {{bitcom}}</a></span>
+				{{/if}}
+
+				{{#if revenueAddress }}
+				<span class="fh5co-post-date"><a target="_blank" href="https://whatsonchain.com/address/{{revenueAddress}}">revenue: {{revenueAddress}}</a></span>
+				{{/if}}
+
+				{{#if token }}
+				<span class="fh5co-post-date"><a target="_blank" href="https://relayx.com/market/{{token.origin}}">token: {{token.origin}}</a></span>
+				{{/if}}
 
 			</div>
 		</div>
@@ -166,7 +175,7 @@
 		  return <h1>Hello World!</h1>;
 		}
 
-		function DomainItem({ txid, href, domain }) {
+		function DomainItem({ txid, href, domain, revenueAddress }) {
 
 			return (
 				<div class="fh5co-entry padding homepage-links-item">

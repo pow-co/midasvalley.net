@@ -119,7 +119,52 @@
 		parallax();
 	});
 
+	async function listRevenueAddresses() {
+
+		const { data } = await axios.get('https://onchain.sv/api/v1/events?app=midasvalley.net&type=set_revenue_address&author=1KhvUBTJsZPGJnvZPxRPQctB2dBtCMsUHA')
+
+		for (let event of data.events) {
+			console.log('set_revenue_address', event.content)
+		}
+
+		const revenueAddresses = data.events.reduce((map, event) => {
+
+			map[event.content.domain] = event.content.address
+
+			return map
+
+		}, {})
+
+		return revenueAddresses
+	}
+
+	async function listTokens() {
+
+		const { data } = await axios.get('https://onchain.sv/api/v1/events?app=midasvalley.net&type=set_token')
+
+		for (let event of data.events) {
+			console.log('set_token', event.content)
+		}
+
+		const tokens = data.events.reduce((map, event) => {
+
+			map[event.author] = event.content
+
+			console.log('reduce', map)
+
+			return map
+		}, {})
+
+		return tokens
+	}
+
 	(async () => {
+
+		const revenueAddresses = await listRevenueAddresses()
+
+		const tokens = await listTokens()
+
+		console.log('TOKENS', tokens)
 
 		const { data } = await axios.get('https://onchain.sv/api/v1/events?app=midasvalley.net&type=watch_domain&author=1KhvUBTJsZPGJnvZPxRPQctB2dBtCMsUHA')
 		let { events } = data
@@ -145,7 +190,7 @@
 
 			const { domain } = event.content
 
-			return axios.get(`http://localhost:5200/api/v1/domains/${domain}/dns-txt-records`).then(({data}) => {
+			return axios.get(`https://midasvalley.net/api/v1/domains/${domain}/dns-txt-records`).then(({data}) => {
 
 				console.log('midasvalley.domain.data', data)
 
@@ -167,13 +212,12 @@
 
 		events = events.filter(event => !!event)
 
-		console.log('EVENTS', events)
-
 		for (let event of events) {
 
-			console.log('EVENT', event)
-
-			const html = template(event)
+			const html = template(Object.assign(event, {
+				revenueAddress: revenueAddresses[event.domain],
+				token: tokens[event.bitcom]
+			}))
 
 			$('#homepage-links-list').prepend(html)
 
