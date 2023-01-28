@@ -10,7 +10,7 @@ const MINIMUM = 1000;
 interface PayoutOptions {
     token: string;
     minimum: number;
-    currency: string;
+    currency?: string;
     amount: number;
 }
 
@@ -24,10 +24,9 @@ async function convertToSatoshis(currency: string, amount: number) {
 
 export async function getPayouts(params: PayoutOptions): Promise<Owner[]> {
 
-    const satoshis = await convertToSatoshis(params.currency, params.amount)
+    const satoshis = params.amount
 
     const { data } = await getTokenHolders(params.token)
-
 
     const total = data.owners.reduce((sum, owner) => {
 

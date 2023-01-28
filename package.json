@@ -20,12 +20,16 @@
     "boom": "^7.3.0",
     "bsv": "^1.5.6",
     "dotenv": "^16.0.3",
+    "filepay": "^2.2.12",
     "hapi-swagger": "^14.5.5",
     "moment": "^2.29.4",
     "nconf": "^0.12.0",
+    "polynym": "^1.0.7",
     "prom-client": "^14.1.0",
     "rabbi": "^1.20.1",
     "require-all": "^3.0.0",
-    "run-sdk": "^0.6.41"
+    "run-sdk": "^0.6.41",
+    "stag-wallet": "^0.2.0",
+    "typescript": "^4.9.4"
   }
 }
