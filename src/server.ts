@@ -133,6 +133,16 @@ export async function NewServer(): Promise<Server> {
 
   server.route({
     method: 'GET',
+    path: '/api/v1/domains',
+    handler: handlers.Domains.index,
+    options: {
+      description: 'List Domains',
+      tags: ['api', 'domains']
+    }
+  })
+
+  server.route({
+    method: 'GET',
     path: '/api/v1/rewards/new/{token}/{amount}-{currency}',
     handler: handlers.Rewards.create,
     options: {

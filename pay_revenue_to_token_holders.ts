@@ -1,7 +1,7 @@
 
 require('dotenv').config()
 
-import { Script, Address, Transaction } from 'bsv'
+import { Script, Address } from 'bsv'
 
 const { HDPublicKey, HDPrivateKey } = require('bsv')
 
@@ -20,8 +20,6 @@ import { getPayouts } from './src/owners'
 import BigNumber from 'bignumber.js'
 
 import * as polynym from 'polynym'
-
-import delay from 'delay'
 
 async function getRevenueWalletForDomain(domain: string): Promise<Wallet> {
 
@@ -100,18 +98,21 @@ async function run() {
 
   const balances = await wallet.balances()
 
-  console.log("BALANCES", balances)
+  const amount = 500
 
-  const amount = balances[0].value - 2180
+  const currency = 'USD'
 
-  if (amount < 218000) { return }
-
-  const url = `https://midasvalley.net/api/v1/rewards/new/${origin}/${amount}-USD`
+  const url = `https://midasvalley.net/api/v1/rewards/new/${origin}/${amount}-${currency}`
 
   const { data: bip270 } = await axios.get(url)
 
+  //const { outputs } = bip270
+
+  //console.log({ outputs })
+
   const owners = await getPayouts({
     token: origin,
+    currency,
     amount,
     minimum: 1
   })
@@ -137,8 +138,6 @@ async function run() {
     return sum + owner.amount
   }, 0)
 
-  console.log('TOTAL', { total, amount })
-
   const outputs = payees.map(({script,amount}) => ({script,amount})) 
 
   const transaction = await wallet.buildPayment({
@@ -158,42 +157,9 @@ async function run() {
 
   })
 
-  console.log('transmit result', transmitResult)
-
-  const tx = new Transaction(transmitResult)
-
-  const txid = tx.hash
-
-  const txhex = tx.serialize()
-
-  console.log('transmit.result', { txhex, txid })
-
-  return { txhex, txid }
+  console.log({ transmitResult })
 
 }
 
-export async function start() {
+run()
 
-  while (true) {
-
-    try {
-
-      await run()
-
-    } catch(error) {
-
-      console.error('wyatthash.paycontinuosly.error', error)
-
-    }
-
-    await delay(1000 * 60)
-
-  }
-
-}
-
-if (require.main === module) {
-  
-  start()
-
-}

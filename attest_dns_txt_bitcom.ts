@@ -1,4 +1,3 @@
-#!/usr/bin/env ts-node
 
 require('dotenv').config()
 
@@ -10,24 +9,23 @@ import { onchain } from 'stag-wallet'
 
 import { findOrCreate } from './src/onchain'
 
+import { attestTxtBitcom } from './src/dns'
+
 async function run() {
 
-  const domain = process.argv[2] || 'askbitcoin.ai'
+  const domain = process.argv[2] || 'egoboost.vip'
 
-  const [domainResult] = await findOrCreate({
-    where: {
-      app: 'midasvalley.net',
-      type: 'watch_domain',
-      content: {
-        domain
-      }
-    },
-    defaults: {
-      app: 'midasvalley.net',
-      key: 'watch_domain',
-      content: {
-        domain
-      }
+  console.log('attest.domain', { domain })
+
+  const attest = await attestTxtBitcom(domain)
+
+  console.log({ attest })
+
+  const domainResult = await onchain.findOne({
+    app: 'midasvalley.net',
+    type: 'watch_domain',
+    content: {
+      domain
     }
   })
 
