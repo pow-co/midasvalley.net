@@ -9,7 +9,7 @@ const MINIMUM = 1000;
 
 interface PayoutOptions {
     token: string;
-    minimum: number;
+    minimum?: number;
     currency?: string;
     amount: number;
 }
@@ -36,9 +36,13 @@ export async function getPayouts(params: PayoutOptions): Promise<Owner[]> {
 
     return data.owners.map(owner => {
 
+        console.log({ owner, satoshis })
+
         var share = parseInt(new BigNumber(owner.amount).dividedBy(total).times(satoshis).toNumber().toString())
 
-        if (share < MINIMUM) {
+        console.log({ share })
+
+        if (MINIMUM && share < MINIMUM) {
 
             share = MINIMUM
         }

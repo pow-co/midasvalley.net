@@ -31,7 +31,7 @@ async function run() {
     }
   })
 
-  console.log({ domainResult })
+  console.log('domainResult', domainResult)
 
   if (domainResult.id) {
 
@@ -56,6 +56,8 @@ async function run() {
         }
       }
     })
+
+    console.log(result)
 
     for (let event of result) {
 
